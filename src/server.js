@@ -7,7 +7,7 @@ app.get('/', (req, res) => {
     <!DOCTYPE html>
     <html>
       <head>
-        <title>A Lovely Horse Application</title>
+        <title>My Lovely Horse</title>
         <script>
           const lines = [
             "(My lovely, lovely, lovely horse)",

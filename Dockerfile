@@ -17,6 +17,9 @@ WORKDIR /usr/app
 # Install the application dependencies.
 RUN npm install
 
+# Set a port number to expose the application
+EXPOSE 3000
+
 # Define the container startup command.
 # (CMD is the last command of a Dockerfile)
 CMD ["node", "server.js"]
