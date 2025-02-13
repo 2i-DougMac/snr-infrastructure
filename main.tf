@@ -12,7 +12,7 @@ provider "aws" {
     region = "eu-west-2"
     # shared_config_files      = ["~/.aws/config"]
     # shared_credentials_files = ["~/.aws/credentials"]
-    # ^^ use environment variables
+    # ^^ commented out as using environment variables
 }
 
 # 3: Define AWS IAM User

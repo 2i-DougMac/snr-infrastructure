@@ -6,7 +6,7 @@ Designed to be deployed as a Docker container on AWS Fargate via Terraform.
 Git | Node.js | Docker | Terraform | AWS CLI
 
 # NB:
- It is assumed for the purposes of these instructions that you have set up an AWS account and created AWS IAM user with AdministratorAccess permissions and configured their credentials as envrironment variables or similar for use via the AWS CLI. Instructions on all of this are not included here.
+ It is assumed for the purposes of these instructions that you have set up an AWS account and created AWS IAM user with AdministratorAccess permissions and configured their credentials as envrironment variables or similar for use via the AWS CLI. Instructions on all of this are not included here. You will need to replace the details of the IAM user in Terraform main.tf configuration step #3 with your IAM user.
 
 # Running locally
 npm i
