@@ -14,7 +14,7 @@ node src/server.js
 
 # Running in Docker
 docker build -t my-lovely-horse .
-docker run -d -p 3000:3000 -name horse my-lovely-horse
+docker run -d -p 3000:3000 --name horse my-lovely-horse
 docker stop horse
 
 # Running on AWS - Provisioning

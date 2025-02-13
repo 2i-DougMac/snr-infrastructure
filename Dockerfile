@@ -17,7 +17,7 @@ WORKDIR /usr/app
 # Install the application dependencies.
 RUN npm install
 
-# Inform the expected -p port binding requirement.
+# Inform the expected TCP -p port binding requirement.
 EXPOSE 3000
 
 # Define the container startup command.
