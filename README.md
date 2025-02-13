@@ -3,11 +3,7 @@ A small express application with one webpage.
 Designed to be deployed as a Docker container on AWS Fargate via Terraform.
 
 # You will require local machine installations of:
-Git
-Node.js
-Docker
-Terraform
-AWS CLI
+Git | Node.js | Docker | Terraform | AWS CLI
 
 # NB:
  It is assumed for the purposes of these instructions that you have set up an AWS account and created AWS IAM user with AdministratorAccess permissions and configured their credentials as envrironment variables or similar for use via the AWS CLI. Instructions on all of this are not included here.
