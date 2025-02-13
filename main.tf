@@ -9,17 +9,17 @@ terraform {
 
 # 2: Define AWS Credentials
 provider "aws" {
-    region = "eu-west-2"
-    # shared_config_files      = ["~/.aws/config"]
-    # shared_credentials_files = ["~/.aws/credentials"]
-    # ^^ commented out as using environment variables
+  region = "eu-west-2"
+  # shared_config_files      = ["~/.aws/config"]
+  # shared_credentials_files = ["~/.aws/credentials"]
+  # ^^ commented out as using environment variables
 }
 
 # 3: Define AWS IAM User
 resource "aws_iam_user" "admin-user" {
-    name = "2i_dm"
-    tags = {
-        description = "2i related admin group user on dm21 account"
+  name = "2i_dm"
+  tags = {
+    description = "2i related admin group user on dm21 account"
   }
 }
 
@@ -57,13 +57,13 @@ resource "aws_ecs_task_definition" "app_task" {
   network_mode             = "awsvpc"    # Add the AWS VPN network mode. Fargate requires this.
   memory                   = 512         # Container RAM
   cpu                      = 256         # Container Processor
-  execution_role_arn       = "${aws_iam_role.ecsTaskExecutionRole.arn}"
+  execution_role_arn       = aws_iam_role.ecsTaskExecutionRole.arn
 }
 
 # 7: Define AWS task execution role and role assumption (1)
 resource "aws_iam_role" "ecsTaskExecutionRole" {
   name               = "ecsTaskExecutionRole"
-  assume_role_policy = "${data.aws_iam_policy_document.assume_role_policy.json}"
+  assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 }
 
 # 8: Define AWS task execution role and role assumption (2)
@@ -80,7 +80,7 @@ data "aws_iam_policy_document" "assume_role_policy" {
 
 # 9: Define AWS task execution role and role assumption (3)
 resource "aws_iam_role_policy_attachment" "ecsTaskExecutionRole_policy" {
-  role       = "${aws_iam_role.ecsTaskExecutionRole.name}"
+  role       = aws_iam_role.ecsTaskExecutionRole.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
@@ -134,37 +134,37 @@ resource "aws_lb_target_group" "target_group" {
   port        = 80
   protocol    = "HTTP"
   target_type = "ip"
-  vpc_id      = "${aws_default_vpc.default_vpc.id}" # <-- Default VPC
+  vpc_id      = aws_default_vpc.default_vpc.id # <-- Default VPC
 }
 
 # 16: Define VPC to load balancer link (2)
 resource "aws_lb_listener" "listener" {
-  load_balancer_arn = "${aws_alb.application_load_balancer.arn}" # <-- Load balancer
+  load_balancer_arn = aws_alb.application_load_balancer.arn # <-- Load balancer
   port              = "80"
   protocol          = "HTTP"
   default_action {
     type             = "forward"
-    target_group_arn = "${aws_lb_target_group.target_group.arn}" # <-- Target group
+    target_group_arn = aws_lb_target_group.target_group.arn # <-- Target group
   }
 }
 
 # 17: Define the ECS Service
 resource "aws_ecs_service" "app_service" {
-  name            = "app-first-service"     # Name the service
-  cluster         = "${aws_ecs_cluster.my_cluster.id}"   # Reference the created Cluster
-  task_definition = "${aws_ecs_task_definition.app_task.arn}" # Reference the task that the service will spin up
+  name            = "app-first-service"                  # Name the service
+  cluster         = aws_ecs_cluster.my_cluster.id        # Reference the created Cluster
+  task_definition = aws_ecs_task_definition.app_task.arn # Reference the task that the service will spin up
   launch_type     = "FARGATE"
   desired_count   = 3 # Set up the number of containers to 3
 
   load_balancer {
-    target_group_arn = "${aws_lb_target_group.target_group.arn}" # Reference the target group
-    container_name   = "${aws_ecs_task_definition.app_task.family}"
+    target_group_arn = aws_lb_target_group.target_group.arn # Reference the target group
+    container_name   = aws_ecs_task_definition.app_task.family
     container_port   = 3000 # Specify the container port
   }
 
   network_configuration {
     subnets          = ["${aws_default_subnet.default_subnet_a.id}", "${aws_default_subnet.default_subnet_b.id}"]
-    assign_public_ip = true     # Provide the containers with public IPs
+    assign_public_ip = true                                                # Provide the containers with public IPs
     security_groups  = ["${aws_security_group.service_security_group.id}"] # Set up the security group
   }
 }
